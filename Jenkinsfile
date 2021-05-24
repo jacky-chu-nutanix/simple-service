@@ -5,11 +5,19 @@ pipeline {
     }
 
     stages {
-        stage('build') {
+        stage('Build') {
             steps {
-                sh 'mvn --version'
-                echo "${PROJECT_VERSION}"
-                echo "${GIT_SHORT_COMMIT}"
+            sh "mvn clean build install"
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                "mvn dockerfile:build -DPROJECT_REVERSION=${PROJECT_REVERSION} -DGIT_SHORT_COMMIT=$GIT_SHORT_COMMIT"
+            }
+        }
+        stage('Push Docker Image') {
+            steps {
+                sh "docker images"
             }
         }
     }
