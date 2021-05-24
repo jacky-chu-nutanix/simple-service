@@ -1,1 +1,1 @@
-# simple-service
+# Simple RESTful service
