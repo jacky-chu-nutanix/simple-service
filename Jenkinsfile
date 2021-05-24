@@ -8,8 +8,8 @@ pipeline {
         stage('build') {
             steps {
                 sh 'mvn --version'
-                echo ${PROJECT_VERSION}
-                echo ${GIT_SHORT_COMMIT}
+                echo "${PROJECT_VERSION}"
+                echo "${GIT_SHORT_COMMIT}"
             }
         }
     }
