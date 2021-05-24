@@ -7,12 +7,12 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-            sh "mvn clean build install"
+                sh "mvn clean build install"
             }
         }
         stage('Build Docker Image') {
             steps {
-                "mvn dockerfile:build -DPROJECT_REVERSION=${PROJECT_REVERSION} -DGIT_SHORT_COMMIT=$GIT_SHORT_COMMIT"
+                sh "mvn dockerfile:build -DPROJECT_REVERSION=${PROJECT_REVERSION} -DGIT_SHORT_COMMIT=$GIT_SHORT_COMMIT"
             }
         }
         stage('Push Docker Image') {
