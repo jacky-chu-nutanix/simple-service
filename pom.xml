@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.nutanix</groupId>
 	<artifactId>simple-service</artifactId>
-	<version>${PROJECT_REVERSION}</version>
+	<version>${PROJECT_VERSION}</version>
 	<name>simple-service</name>
 	<description>Demo project for Consul, Nomad</description>
 	<properties>
@@ -42,7 +42,7 @@
 				<configuration>
 					<repository>${project.artifactId}</repository>
 					<!--suppress UnresolvedMavenProperty -->
-					<tag>${PROJECT_REVERSION}-${GIT_SHORT_COMMIT}</tag>
+					<tag>${PROJECT_VERSION}-${GIT_SHORT_COMMIT}</tag>
 				</configuration>
 			</plugin>
 		</plugins>

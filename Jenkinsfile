@@ -1,5 +1,5 @@
 pipeline {
-    agent { docker { image 'maven:3.3.3' } }
+    agent { docker { image 'maven:3-openjdk-11' } }
     environment {
       GIT_SHORT_COMMIT = GIT_COMMIT.take(7)
     }
@@ -12,7 +12,7 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                sh "mvn dockerfile:build -DPROJECT_REVERSION=${PROJECT_REVERSION} -DGIT_SHORT_COMMIT=$GIT_SHORT_COMMIT"
+                sh "mvn dockerfile:build -DPROJECT_VERSION=${PROJECT_VERSION} -DGIT_SHORT_COMMIT=$GIT_SHORT_COMMIT"
             }
         }
         stage('Push Docker Image') {
