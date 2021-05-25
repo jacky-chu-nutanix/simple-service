@@ -40,7 +40,7 @@
 				<artifactId>dockerfile-maven-plugin</artifactId>
 				<version>1.4.9</version>
 				<configuration>
-					<repository>${project.artifactId}</repository>
+					<repository>http://argus.eng.nutanix.com:5000/${project.artifactId}</repository>
 					<!--suppress UnresolvedMavenProperty -->
 					<tag>${PROJECT_VERSION}-${GIT_SHORT_COMMIT}</tag>
 				</configuration>
