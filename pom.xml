@@ -42,7 +42,7 @@
 				<configuration>
 					<repository>http://argus.eng.nutanix.com:5000/${project.artifactId}</repository>
 					<!--suppress UnresolvedMavenProperty -->
-					<tag>${PROJECT_VERSION}-${GIT_SHORT_COMMIT}</tag>
+<!--					<tag>${PROJECT_VERSION}-${GIT_SHORT_COMMIT}</tag>-->
 				</configuration>
 			</plugin>
 		</plugins>
