@@ -12,7 +12,7 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                sh "mvn dockerfile:build -DPROJECT_VERSION=${PROJECT_VERSION} -DGIT_SHORT_COMMIT=$GIT_SHORT_COMMIT"
+                sh "mvn dockerfile:build -DGIT_SHORT_COMMIT=$GIT_SHORT_COMMIT"
             }
         }
         stage('Push Docker Image') {
