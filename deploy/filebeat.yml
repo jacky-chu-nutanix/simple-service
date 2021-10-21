@@ -1,0 +1,23 @@
+---
+filebeat:
+  prospectors:
+    - encoding: plain
+      fields:
+        lang: java
+      input_type: log
+      multiline:
+        match: after
+        negate: true
+        pattern: '^\['
+      paths:
+        - /var/log/app/*.elog
+    - encoding: plain
+      fields:
+        lang: java
+      input_type: log
+      multiline:
+        match: after
+        negate: true
+        pattern: '^\['
+      paths:
+        - /var/log/app/*.log

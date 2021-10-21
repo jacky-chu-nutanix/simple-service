@@ -1,34 +1,24 @@
-pipeline {
-    agent { docker { image 'maven:3-openjdk-11' } }
-    stages {
-        stage('Checkout Code'){
-           steps{
-             checkout scm
-             sh 'env'
-           }
-        }
+node {
+    try {
+        stage 'Checkout'
+            checkout scm
 
-        stage('Build') {
-            steps {
-                sh "mvn clean package"
-            }
-        }
-        stage('Build Docker Image') {
-            steps {
-                sh "mvn dockerfile:build"
-            }
-        }
-        stage('Push Docker Image') {
-            steps {
-                sh "docker images"
-            }
-        }
+        stage 'Application Build'
+            def mvnHome = tool 'Maven'
+            sh "${mvnHome}/bin/mvn clean package -DskipTests=true"
+
+        stage 'Artifacts archive'
+            step([$class: 'ArtifactArchiver', artifacts: '**/target/*.jar', fingerprint: true])
+
+        stage "Loading common script"
+            def common = load "/var/lib/jenkins/common.groovy"
+            common.build()
     }
-    post {
-       failure {
-           mail to: "jacky.chu@nutanix.com",
-           subject: "Jenkins Build Job '${env.JOB_NAME}' (${env.BUILD_NUMBER}) has failed.",
-           body: "Please go to ${env.BUILD_URL} and verify the build log why it failed. Error recorded is ${err}"
-       }
+    catch (err) {
+        stage 'Sending the error.'
+        mail to: "jacky.chu@nutanix.com",
+        subject: "Jenkins Build Job '${env.JOB_NAME}' (${env.BUILD_NUMBER}) has failed.",
+        body: "Please go to ${env.BUILD_URL} and verify the build log why it failed. Error recorded is ${err}"
+        throw err
     }
 }
