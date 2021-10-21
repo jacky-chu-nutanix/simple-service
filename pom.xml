@@ -85,7 +85,9 @@
                         <id>get-the-git-infos</id>
                         <goals>
                             <goal>revision</goal>
+                            <goal>validateRevision</goal>
                         </goals>
+                        <phase>package</phase>
                     </execution>
                 </executions>
                 <configuration>
@@ -101,6 +103,15 @@
                         <always>false</always>
                         <dirty>-dirty</dirty>
                     </gitDescribe>
+                    <validationProperties>
+                        <!-- verify that the current repository is not dirty -->
+                        <validationProperty>
+                            <name>validating git dirty</name>
+                            <!--suppress UnresolvedMavenProperty -->
+                            <value>${git.dirty}</value>
+                            <shouldMatchTo>false</shouldMatchTo>
+                        </validationProperty>
+                    </validationProperties>
                 </configuration>
             </plugin>
         </plugins>
