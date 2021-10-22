@@ -1,5 +1,9 @@
 node {
     try {
+        stage('Checkout') {
+            checkout scm
+        }
+
         stage('Application Build') {
             def mvnHome = tool 'Maven'
             sh "${mvnHome}/bin/mvn clean package -DskipTests=true"
