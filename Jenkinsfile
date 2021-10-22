@@ -1,12 +1,15 @@
 node {
+//     env.JAVA_HOME = tool 'JDK11'
+    sh 'java -version'
+
     try {
         stage('Checkout') {
             checkout scm
         }
 
         stage('Application Build') {
-            env.JAVA_HOME = tool 'JDK11'
             def mvnHome = tool 'Maven'
+            sh "mvn -version"
             sh "${mvnHome}/bin/mvn clean package -DskipTests=true"
         }
 
