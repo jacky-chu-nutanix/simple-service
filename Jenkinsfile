@@ -1,6 +1,5 @@
 node {
-    jdk = tool name: 'JDK11'
-    env.JAVA_HOME = "${jdk}"
+    env.JAVA_HOME = tool 'JDK11'
 
     try {
         stage('Checkout') {
