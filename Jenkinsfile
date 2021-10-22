@@ -1,18 +1,25 @@
 node {
-    try {
-        stage 'Checkout'
-            checkout scm
+    jdk = tool name: 'JDK11'
+    env.JAVA_HOME = "${jdk}"
 
-        stage 'Application Build'
+    try {
+        stage('Checkout') {
+            checkout scm
+        }
+
+        stage('Application Build') {
             def mvnHome = tool 'Maven'
             sh "${mvnHome}/bin/mvn clean package -DskipTests=true"
+        }
 
-        stage 'Artifacts archive'
+        stage('Artifacts archive') {
             step([$class: 'ArtifactArchiver', artifacts: '**/target/*.jar', fingerprint: true])
+        }
 
-        stage "Loading common script"
+        stage('Loading common script') {
             def common = load "/var/lib/jenkins/common.groovy"
             common.build()
+        }
     }
     catch (err) {
         stage 'Sending the error.'
