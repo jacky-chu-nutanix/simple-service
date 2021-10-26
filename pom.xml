@@ -135,7 +135,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>app.jackychu.jysrttools.JySrtTools</mainClass>
+                            <mainClass>com.nutanix.simpleservice.SimpleServiceApplication</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
