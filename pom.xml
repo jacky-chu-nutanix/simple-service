@@ -81,40 +81,15 @@
                         <always>false</always>
                         <dirty>-dirty</dirty>
                     </gitDescribe>
-                    <validationProperties>
-                        <!-- verify that the current repository is not dirty -->
-                        <validationProperty>
-                            <name>validating git dirty</name>
-                            <!--suppress UnresolvedMavenProperty -->
-                            <value>${git.dirty}</value>
-                            <shouldMatchTo>false</shouldMatchTo>
-                        </validationProperty>
-                    </validationProperties>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>${maven-assembly-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.nutanix.simpleservice.SimpleServiceApplication</mainClass>
-                        </manifest>
-                    </archive>
+<!--                    <validationProperties>-->
+<!--                        &lt;!&ndash; verify that the current repository is not dirty &ndash;&gt;-->
+<!--                        <validationProperty>-->
+<!--                            <name>validating git dirty</name>-->
+<!--                            &lt;!&ndash;suppress UnresolvedMavenProperty &ndash;&gt;-->
+<!--                            <value>${git.dirty}</value>-->
+<!--                            <shouldMatchTo>false</shouldMatchTo>-->
+<!--                        </validationProperty>-->
+<!--                    </validationProperties>-->
                 </configuration>
             </plugin>
             <plugin>
@@ -128,7 +103,8 @@
                         </manifest>
                     </archive>
                 </configuration>
-            </plugin>        </plugins>
+            </plugin>
+        </plugins>
     </build>
 
 </project>
