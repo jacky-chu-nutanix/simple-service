@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-cd /opt/beam/platform-microservice-go-starter-service
-exec ./platform-microservice-go-starter-service
+cd /opt/beam/simple-service
+exec java -jar simple-service-1.0.0-jar-with-dependencies.jar
