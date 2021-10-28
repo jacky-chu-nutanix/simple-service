@@ -1,0 +1,28 @@
+node {
+    try {
+        stage('Checkout') {
+            checkout scm
+        }
+
+        stage('Application Build & Test') {
+            def mvnHome = tool 'Maven'
+            sh "${mvnHome}/bin/mvn clean package"
+        }
+
+        stage('Run some functional tests') {
+            echo 'Functional testing'
+        }
+
+        stage('Run some integration tests') {
+            echo 'Integration testing'
+        }
+
+    }
+    catch (err) {
+        stage 'Sending the error.'
+        mail to: "jacky.chu@nutanix.com",
+        subject: "Jenkins Build Job '${env.JOB_NAME}' (${env.BUILD_NUMBER}) has failed.",
+        body: "Please go to ${env.BUILD_URL} and verify the build log why it failed. Error recorded is ${err}"
+        throw err
+    }
+}
