@@ -28,7 +28,7 @@ node {
         }
     }
     finally {
-        stage('Post action') {
+        stage('Post Action') {
             curl "https://api.GitHub.com/repos/jacky-chu-nutanix/simple-service/statuses/$GIT_COMMIT?access_token=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" \
             -H "Content-Type: application/json" \
             -X POST \
