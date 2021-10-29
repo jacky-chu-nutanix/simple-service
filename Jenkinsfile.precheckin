@@ -4,6 +4,7 @@ node {
     try {
         stage('Checkout') {
             checkout scm
+            env.GIT_COMMIT = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
         }
 
         stage('Application Build & Test') {
@@ -21,7 +22,7 @@ node {
     }
     catch (err) {
         stage ('Sending the error.') {
-            curl "https://api.GitHub.com/repos/jacky-chu-nutanix/simple-service/statuses/$GIT_COMMIT?access_token=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" \
+            curl "https://api.GitHub.com/repos/jacky-chu-nutanix/simple-service/statuses/${env.GIT_COMMIT}?access_token=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" \
             -H "Content-Type: application/json" \
             -X POST \
             -d "{\"state\": \"success\",\"context\": \"continuous-integration/jenkins\", \"description\": \"Jenkins\", \"target_url\": \"${env.BUILD_URL}\"}"
@@ -29,7 +30,7 @@ node {
     }
     finally {
         stage('Post Action') {
-            curl "https://api.GitHub.com/repos/jacky-chu-nutanix/simple-service/statuses/$GIT_COMMIT?access_token=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" \
+            curl "https://api.GitHub.com/repos/jacky-chu-nutanix/simple-service/statuses/${env.GIT_COMMIT}?access_token=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" \
             -H "Content-Type: application/json" \
             -X POST \
             -d "{\"state\": \"failure\",\"context\": \"continuous-integration/jenkins\", \"description\": \"Jenkins\", \"target_url\": \"${env.BUILD_URL}\"}"
