@@ -7,17 +7,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class SimpleServiceApplicationTests {
 
-	@Autowired
-	GreetingController greetingController;
+    @Autowired
+    GreetingController greetingController;
 
-	@Autowired
-	HealthCheckController healthCheckController;
+    @Autowired
+    HealthCheckController healthCheckController;
 
-	@Autowired
-	VersionController versionController;
+    @Autowired
+    VersionController versionController;
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }
