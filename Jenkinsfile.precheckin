@@ -20,22 +20,26 @@ node {
         }
 
         stage('Post Action - Update github status') {
-            sh """
-            curl --user "jacky-chu-nutanix" -H "Content-Type: application/json" -H "Authorization: token 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" \
-            -X POST -d "{\"state\": \"success\",\"context\": \"pre-checkin\", \"description\": \"Jenkins\", \"target_url\": \"${env.BUILD_URL}\"}" \
-            "https://api.GitHub.com/repos/jacky-chu-nutanix/simple-service/statuses/${env.GIT_COMMIT}"
-            """
+            withCredentials([gitUsernamePassword(credentialsId: 'b70c1e3b-74dd-45bc-826d-25ea685990b7', variable: 'TOKEN')]) {
+                sh """
+                curl --user "jacky-chu-nutanix" -H "Content-Type: application/json" -H "Token: $TOKEN" \
+                -X POST -d "{\"state\": \"success\",\"context\": \"pre-checkin\", \"description\": \"Jenkins\", \"target_url\": \"${env.BUILD_URL}\"}" \
+                "https://api.GitHub.com/repos/jacky-chu-nutanix/simple-service/statuses/${env.GIT_COMMIT}"
+                """
+            }
         }
 
 
     }
     catch (err) {
         stage ('Sending the error.') {
-            sh """
-            curl --user "jacky-chu-nutanix" -H "Content-Type: application/json" -H "Authorization: token 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" \
-            -X POST -d "{\"state\": \"failure\",\"context\": \"pre-checkin\", \"description\": \"Jenkins\", \"target_url\": \"${env.BUILD_URL}\"}" \
-            "https://api.GitHub.com/repos/jacky-chu-nutanix/simple-service/statuses/${env.GIT_COMMIT}"
-            """
+            withCredentials([gitUsernamePassword(credentialsId: 'b70c1e3b-74dd-45bc-826d-25ea685990b7', variable: 'TOKEN')]) {
+                sh """
+                curl --user "jacky-chu-nutanix" -H "Content-Type: application/json" -H "Token: $TOKEN" \
+                -X POST -d "{\"state\": \"failure\",\"context\": \"pre-checkin\", \"description\": \"Jenkins\", \"target_url\": \"${env.BUILD_URL}\"}" \
+                "https://api.GitHub.com/repos/jacky-chu-nutanix/simple-service/statuses/${env.GIT_COMMIT}"
+                """
+            }
         }
     }
 }
