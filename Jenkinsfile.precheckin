@@ -1,3 +1,5 @@
+properties([pipelineTriggers([githubPush()])])
+
 node {
     try {
         stage('Checkout') {
@@ -5,8 +7,7 @@ node {
         }
 
         stage('Application Build & Test') {
-            def mvnHome = tool 'Maven'
-            sh "${mvnHome}/bin/mvn clean package"
+           echo 'Build image'
         }
 
         stage('Run some functional tests') {
