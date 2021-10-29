@@ -20,10 +20,19 @@ node {
 
     }
     catch (err) {
-        stage 'Sending the error.'
-        mail to: "jacky.chu@nutanix.com",
-        subject: "Jenkins Build Job '${env.JOB_NAME}' (${env.BUILD_NUMBER}) has failed.",
-        body: "Please go to ${env.BUILD_URL} and verify the build log why it failed. Error recorded is ${err}"
-        throw err
+        stage ('Sending the error.') {
+            curl "https://api.GitHub.com/repos/jacky-chu-nutanix/simple-service/statuses/$GIT_COMMIT?access_token=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" \
+            -H "Content-Type: application/json" \
+            -X POST \
+            -d "{\"state\": \"success\",\"context\": \"continuous-integration/jenkins\", \"description\": \"Jenkins\", \"target_url\": \"${env.BUILD_URL}\"}"
+        }
+    }
+    finally {
+        stage('Post action') {
+            curl "https://api.GitHub.com/repos/jacky-chu-nutanix/simple-service/statuses/$GIT_COMMIT?access_token=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" \
+            -H "Content-Type: application/json" \
+            -X POST \
+            -d "{\"state\": \"failure\",\"context\": \"continuous-integration/jenkins\", \"description\": \"Jenkins\", \"target_url\": \"${env.BUILD_URL}\"}"
+        }
     }
 }
