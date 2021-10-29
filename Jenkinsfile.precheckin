@@ -22,12 +22,12 @@ node {
     }
     catch (err) {
         stage ('Sending the error.') {
-            curl -H "Content-Type: application/json" -X POST -d "{\"state\": \"failure\",\"context\": \"continuous-integration/jenkins\", \"description\": \"Jenkins\", \"target_url\": \"${env.BUILD_URL}\"}" https://api.GitHub.com/repos/jacky-chu-nutanix/simple-service/statuses/${env.GIT_COMMIT}?access_token=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
+            curl -H "Content-Type: application/json" -X POST -d "{\"state\": \"failure\",\"context\": \"continuous-integration/jenkins\", \"description\": \"Jenkins\", \"target_url\": \"${env.BUILD_URL}\"}" "https://api.GitHub.com/repos/jacky-chu-nutanix/simple-service/statuses/${env.GIT_COMMIT}?access_token=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"
         }
     }
     finally {
         stage('Post Action') {
-            curl -H "Content-Type: application/json" -X POST -d "{\"state\": \"success\",\"context\": \"continuous-integration/jenkins\", \"description\": \"Jenkins\", \"target_url\": \"${env.BUILD_URL}\"}" https://api.GitHub.com/repos/jacky-chu-nutanix/simple-service/statuses/${env.GIT_COMMIT}?access_token=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
+            curl -H "Content-Type: application/json" -X POST -d "{\"state\": \"success\",\"context\": \"continuous-integration/jenkins\", \"description\": \"Jenkins\", \"target_url\": \"${env.BUILD_URL}\"}" "https://api.GitHub.com/repos/jacky-chu-nutanix/simple-service/statuses/${env.GIT_COMMIT}?access_token=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"
         }
     }
 }
