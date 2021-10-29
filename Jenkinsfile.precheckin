@@ -4,7 +4,7 @@ node {
     try {
         stage('Checkout') {
             checkout scm
-            env.GIT_COMMIT = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
+            env.GIT_COMMIT = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%H'").trim()
         }
 
         stage('Application Build & Test') {
