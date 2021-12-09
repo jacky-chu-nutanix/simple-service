@@ -1,2 +1,2 @@
 # Simple RESTful service
-test
+test2
