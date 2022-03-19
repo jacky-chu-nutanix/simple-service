@@ -4,6 +4,7 @@ node {
     try {
         stage('Checkout') {
             checkout scm
+            env.GIT_COMMIT = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%H'").trim()
         }
 
         stage('Application Build & Test') {
@@ -18,12 +19,27 @@ node {
             echo 'Integration testing'
         }
 
+        stage('Post Action - Update github status') {
+            withCredentials([gitUsernamePassword(credentialsId: 'b70c1e3b-74dd-45bc-826d-25ea685990b7', variable: 'TOKEN')]) {
+                sh """
+                curl --user "jacky-chu-nutanix" -H "Content-Type: application/json" -H "Token: $TOKEN" \
+                -X POST -d "{\"state\": \"success\",\"context\": \"pre-checkin\", \"description\": \"Jenkins\", \"target_url\": \"${env.BUILD_URL}\"}" \
+                "https://api.GitHub.com/repos/jacky-chu-nutanix/simple-service/statuses/${env.GIT_COMMIT}"
+                """
+            }
+        }
+
+
     }
     catch (err) {
-        stage 'Sending the error.'
-        mail to: "jacky.chu@nutanix.com",
-        subject: "Jenkins Build Job '${env.JOB_NAME}' (${env.BUILD_NUMBER}) has failed.",
-        body: "Please go to ${env.BUILD_URL} and verify the build log why it failed. Error recorded is ${err}"
-        throw err
+        stage ('Sending the error.') {
+            withCredentials([gitUsernamePassword(credentialsId: 'b70c1e3b-74dd-45bc-826d-25ea685990b7', variable: 'TOKEN')]) {
+                sh """
+                curl --user "jacky-chu-nutanix" -H "Content-Type: application/json" -H "Token: $TOKEN" \
+                -X POST -d "{\"state\": \"failure\",\"context\": \"pre-checkin\", \"description\": \"Jenkins\", \"target_url\": \"${env.BUILD_URL}\"}" \
+                "https://api.GitHub.com/repos/jacky-chu-nutanix/simple-service/statuses/${env.GIT_COMMIT}"
+                """
+            }
+        }
     }
 }
